@@ -6,7 +6,7 @@ const GameOver = (props) => {
             <h1>GAME OVER</h1>
             <h2>HighScores</h2>
             {props.highScores.map((score, idx) => <div className='score' key={idx}> 
-                <li>Name: {score[0]}</li>
+                {/* <li>Name: {score[0]}</li> */}
                 <li>Score: {score[1]}</li>
                 </div>)}
         <button onClick={props.func}>CLICK TO PLAY AGAIN</button>

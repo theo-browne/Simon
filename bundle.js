@@ -226,8 +226,9 @@ function (_React$Component) {
       gameStarted: false,
       selected: '',
       pos: -1,
-      name: 'New Player',
-      inputSequence: []
+      name: 'Local Player',
+      inputSequence: [],
+      nameChange: false
     };
     _this.colors = ["red", "blue", "green", "yellow"];
     _this.sequence = [];
@@ -357,22 +358,13 @@ function (_React$Component) {
 
       var gameStarted = this.state.gameStarted ? null : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "start-game"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Press SPACE to start game"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        className: "change-link"
-      }, "Click \xA0 ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        className: "change-name",
-        onClick: function onClick() {
-          return _this3.setState({
-            changeName: true
-          });
-        }
-      }, " HERE "), " \xA0 to change name"));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Press SPACE to start game"));
       var modal = this.state.gameOver ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_gameOver__WEBPACK_IMPORTED_MODULE_2__["default"], {
         highScores: this.highScores.sort(function (a, b) {
           return b[1] - a[1];
         }),
         func: this.resetGame
-      }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Hello ", this.state.name));
+      }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Play Simon"));
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, modal, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "game-grid",
         onClick: this.handleClick
@@ -414,7 +406,7 @@ var GameOver = function GameOver(props) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "score",
       key: idx
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Name: ", score[0]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Score: ", score[1]));
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Score: ", score[1]));
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     onClick: props.func
   }, "CLICK TO PLAY AGAIN"));

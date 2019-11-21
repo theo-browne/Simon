@@ -10,8 +10,9 @@ export default class Game extends React.Component{
             gameStarted: false,
             selected: '',
             pos: -1,
-            name: 'New Player',
+            name: 'Local Player',
             inputSequence: [],
+            nameChange: false
         };
         this.colors = ["red", "blue", "green", "yellow"];
         this.sequence = [];
@@ -57,6 +58,7 @@ export default class Game extends React.Component{
             }
             , 100)
         } else {
+
             setTimeout(this.setState({ pos: newPos, selected: this.sequence[newPos] }), 100) 
         }
               
@@ -101,21 +103,29 @@ export default class Game extends React.Component{
         this.setState({ name: e.target.value }) 
     }
     render(){
-        let gameStarted = this.state.gameStarted ? null : <div className='start-game'>
-            <li>Press SPACE to start game</li>
-            <li className='change-link'>Click &nbsp; <li className='change-name' onClick={() => this.setState({ changeName: true })}> HERE </li> &nbsp; to change name</li>
-        </div>;
-    let modal = this.state.gameOver ? <GameOver highScores={this.highScores.sort((a,b) => b[1] - a[1])} func={this.resetGame}/> : <div>
-        <h1>Hello {this.state.name}</h1>
-        </div>;
+      
+
+        let gameStarted = this.state.gameStarted ? null : 
+            <div className='start-game'>
+                <li>Press SPACE to start game</li>
+            </div>;
+
+        let modal = this.state.gameOver ? 
+            <GameOver highScores={this.highScores.sort((a,b) => b[1] - a[1])} 
+            func={this.resetGame}/> : 
+            <div>
+                <h1>Play Simon</h1>
+            </div>;
+            
         return(
             <div>
                 {modal}
             <div className='game-grid' onClick={this.handleClick}>
                 {this.colors.map((color, idx) => <SimonButton 
-                key={idx} color={color}
-                highlighted={color === this.state.selected}
-                disabled={this.state.selected}/>) }
+                    key={idx} color={color}
+                    highlighted={color === this.state.selected}
+                    disabled={this.state.selected}/>) 
+                }
             </div>
                     {gameStarted}
             </div>

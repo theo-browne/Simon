@@ -15,8 +15,10 @@
     display: flex;
     width:400px;
     flex-wrap: wrap;
-    margin: auto
+    margin: auto;
+    
 }
+
 .game-grid > div{
     width: 200px;
     height: 200px;
