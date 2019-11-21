@@ -10,9 +10,9 @@ export default class Game extends React.Component{
             gameStarted: false,
             selected: '',
             pos: -1,
-            name: 'New Player'
+            name: 'New Player',
+            inputSequence: [],
         };
-        this.handleClick = this.handleClick.bind(this);
         this.colors = ["red", "blue", "green", "yellow"];
         this.sequence = [];
         this.inputSequence = [];
@@ -21,6 +21,8 @@ export default class Game extends React.Component{
         this.selectColor = this.selectColor.bind(this);
         this.resetGame = this.resetGame.bind(this);
         this.playGame = this.playGame.bind(this);
+        this.handleInput = this.handleInput.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount(){
@@ -42,8 +44,17 @@ export default class Game extends React.Component{
     selectColor(){
         this.setState({selected: ''})
         let newPos = this.state.pos + 1;
-        if (!this.sequence[newPos]) clearInterval(this.interval)
-        setTimeout(this.setState({ pos: newPos, selected: this.sequence[newPos] }), 100)       
+        if (!this.sequence[newPos]){
+            this.setState({selected: 'finished'})
+            setTimeout(() => {
+                clearInterval(this.interval)
+                this.setState({selected: ''})
+            }
+            , 100)
+        } else {
+            setTimeout(this.setState({ pos: newPos, selected: this.sequence[newPos] }), 100) 
+        }
+              
     }
 
     generateColor(){
@@ -52,6 +63,7 @@ export default class Game extends React.Component{
     }
 
     resetGame(){
+        
         this.inputSequence = [];
         this.sequence = [];
         this.score = 0;
@@ -75,14 +87,22 @@ export default class Game extends React.Component{
         if (pos === this.sequence.length - 1 && !this.state.gameOver) {
             this.inputSequence = [];
             this.score ++;
-            this.setState({pos: -1})
-            this.playGame();
+            this.setState({pos: -1, selected: ''})
+            setTimeout(this.playGame, 500)
         }
     }
 
+    handleInput(e){
+        this.setState({ name: e.target.value }) 
+    }
     render(){
-        let gameStarted = this.state.gameStarted ? "" : "Press SPACE to start game";
-        let modal = this.state.gameOver ? <GameOver highScores={this.highScores.sort((a,b) => b[1] - a[1])} func={this.resetGame}/> : null;
+        let gameStarted = this.state.gameStarted ? null : <div className='start-game'>
+            <li>Press SPACE to start game</li>
+            <li className='change-link'>Click &nbsp; <li className='change-name' onClick={() => this.setState({ changeName: true })}> HERE </li> &nbsp; to change name</li>
+        </div>;
+    let modal = this.state.gameOver ? <GameOver highScores={this.highScores.sort((a,b) => b[1] - a[1])} func={this.resetGame}/> : <div>
+        <h1>Hello {this.state.name}</h1>
+        </div>;
         return(
             <div>
                 {modal}
@@ -92,9 +112,7 @@ export default class Game extends React.Component{
                 highlighted={color === this.state.selected}
                 disabled={this.state.selected}/>) }
             </div>
-                <li>
                     {gameStarted}
-                </li>
             </div>
         )
     }

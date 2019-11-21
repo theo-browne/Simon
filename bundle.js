@@ -156,9 +156,9 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var highlight = this.state.highlighted || this.props.highlighted ? 'highlight' : 'nonhighlight';
+      var highlight = this.props.highlighted || this.state.highlighted && !this.props.disabled ? 'highlight' : 'nonhighlight';
       var clickable = !this.props.disabled ? false : true;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         disabled: clickable,
         className: this.props.color + ' ' + highlight,
         onMouseOver: this.highlightBox,
@@ -226,9 +226,9 @@ function (_React$Component) {
       gameStarted: false,
       selected: '',
       pos: -1,
-      name: 'New Player'
+      name: 'New Player',
+      inputSequence: []
     };
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     _this.colors = ["red", "blue", "green", "yellow"];
     _this.sequence = [];
     _this.inputSequence = [];
@@ -237,6 +237,8 @@ function (_React$Component) {
     _this.selectColor = _this.selectColor.bind(_assertThisInitialized(_this));
     _this.resetGame = _this.resetGame.bind(_assertThisInitialized(_this));
     _this.playGame = _this.playGame.bind(_assertThisInitialized(_this));
+    _this.handleInput = _this.handleInput.bind(_assertThisInitialized(_this));
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -267,15 +269,30 @@ function (_React$Component) {
   }, {
     key: "selectColor",
     value: function selectColor() {
+      var _this3 = this;
+
       this.setState({
         selected: ''
       });
       var newPos = this.state.pos + 1;
-      if (!this.sequence[newPos]) clearInterval(this.interval);
-      setTimeout(this.setState({
-        pos: newPos,
-        selected: this.sequence[newPos]
-      }), 100);
+
+      if (!this.sequence[newPos]) {
+        this.setState({
+          selected: 'finished'
+        });
+        setTimeout(function () {
+          clearInterval(_this3.interval);
+
+          _this3.setState({
+            selected: ''
+          });
+        }, 100);
+      } else {
+        setTimeout(this.setState({
+          pos: newPos,
+          selected: this.sequence[newPos]
+        }), 100);
+      }
     }
   }, {
     key: "generateColor",
@@ -316,23 +333,42 @@ function (_React$Component) {
         this.inputSequence = [];
         this.score++;
         this.setState({
-          pos: -1
+          pos: -1,
+          selected: ''
         });
-        this.playGame();
+        setTimeout(this.playGame, 500);
       }
+    }
+  }, {
+    key: "handleInput",
+    value: function handleInput(e) {
+      this.setState({
+        name: e.target.value
+      });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
-      var gameStarted = this.state.gameStarted ? "" : "Press SPACE to start game";
+      var gameStarted = this.state.gameStarted ? null : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "start-game"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Press SPACE to start game"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "change-link"
+      }, "Click \xA0 ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "change-name",
+        onClick: function onClick() {
+          return _this4.setState({
+            changeName: true
+          });
+        }
+      }, " HERE "), " \xA0 to change name"));
       var modal = this.state.gameOver ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_gameOver__WEBPACK_IMPORTED_MODULE_2__["default"], {
         highScores: this.highScores.sort(function (a, b) {
           return b[1] - a[1];
         }),
         func: this.resetGame
-      }) : null;
+      }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Hello ", this.state.name));
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, modal, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "game-grid",
         onClick: this.handleClick
@@ -340,10 +376,10 @@ function (_React$Component) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_button__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: idx,
           color: color,
-          highlighted: color === _this3.state.selected,
-          disabled: _this3.state.selected
+          highlighted: color === _this4.state.selected,
+          disabled: _this4.state.selected
         });
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, gameStarted));
+      })), gameStarted);
     }
   }]);
 

@@ -12,15 +12,14 @@
 }
 
 .game-grid{
-    margin: auto;
-    margin-top: 25%;
     display: flex;
-    width: 40%;
+    width:400px;
+    flex-wrap: wrap;
+    margin: auto
 }
-.game-grid > button{
-    padding: 20%;
-    padding-top: 10%;
-    padding-bottom: 10%;
+.game-grid > div{
+    width: 200px;
+    height: 200px;
     box-sizing: border-box;
 }
 
@@ -56,4 +55,15 @@ li{
 }
 .score li{
     margin-left: 10px
+}
+
+.start-game, .change-link{
+    text-align: center;
+    margin-top: 30px;
+}
+
+.change-link{
+    display: flex;
+    margin: auto;
+    justify-content: center;
 }
