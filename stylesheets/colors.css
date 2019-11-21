@@ -1,0 +1,54 @@
+.red{
+    background-color: red;
+}
+.green{
+    background-color: green;
+}
+.blue{
+    background-color: blue;
+}
+.yellow{
+    background-color: yellow;
+}
+
+.game-grid{
+    margin: auto;
+    margin-top: 25%;
+    display: flex;
+    width: 40%;
+}
+.game-grid button{
+    width: 50%;
+    box-sizing: border-box;
+}
+
+
+.nonhighlight{
+    opacity: .5;
+}
+.highlight{
+    opacity: 1;
+}
+
+.game-over{
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+  background-color: rgba(243, 242, 242, 0.8);
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+.game-over button, .game-over h1, .game-over li{
+    z-index: 3;
+}
+
+li{
+    list-style: none;
+}
+.score{
+    display: flex;
+}
+.score li{
+    margin-left: 10px
+}
