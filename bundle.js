@@ -108,9 +108,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -132,17 +132,37 @@ function (_React$Component) {
     _this.state = {
       highlighted: _this.props.highlighted
     };
+    _this.highlightBox = _this.highlightBox.bind(_assertThisInitialized(_this));
+    _this.unhighlightBox = _this.unhighlightBox.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(SimonButton, [{
+    key: "highlightBox",
+    value: function highlightBox() {
+      if (!this.props.disabled) {
+        this.setState({
+          highlighted: true
+        });
+      }
+    }
+  }, {
+    key: "unhighlightBox",
+    value: function unhighlightBox() {
+      this.setState({
+        highlighted: false
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      var highlight = this.props.highlighted ? 'highlight' : 'nonhighlight';
+      var highlight = this.state.highlighted || this.props.highlighted ? 'highlight' : 'nonhighlight';
       var clickable = !this.props.disabled ? false : true;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         disabled: clickable,
-        className: this.props.color + ' ' + highlight
+        className: this.props.color + ' ' + highlight,
+        onMouseOver: this.highlightBox,
+        onMouseLeave: this.unhighlightBox
       });
     }
   }]);
@@ -264,9 +284,6 @@ function (_React$Component) {
       this.sequence.push(this.colors[pos]);
     }
   }, {
-    key: "guessSequence",
-    value: function guessSequence() {}
-  }, {
     key: "resetGame",
     value: function resetGame() {
       this.inputSequence = [];
@@ -283,11 +300,13 @@ function (_React$Component) {
   }, {
     key: "handleClick",
     value: function handleClick(e) {
+      if (!this.state.gameStarted) return;
       this.inputSequence.push(e.target.classList[0]);
       var pos = this.inputSequence.length - 1;
 
       if (this.inputSequence[pos] !== this.sequence[pos]) {
         this.highScores.push([this.state.name, this.score]);
+        clearInterval(this.interval);
         this.setState({
           gameOver: true
         });

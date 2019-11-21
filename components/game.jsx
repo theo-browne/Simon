@@ -51,10 +51,6 @@ export default class Game extends React.Component{
         this.sequence.push(this.colors[pos])
     }
 
-    guessSequence(){
-        
-    }
-
     resetGame(){
         this.inputSequence = [];
         this.sequence = [];
@@ -68,10 +64,12 @@ export default class Game extends React.Component{
     }
 
     handleClick(e){
+        if (!this.state.gameStarted) return
         this.inputSequence.push(e.target.classList[0]);
         let pos = this.inputSequence.length - 1;
         if (this.inputSequence[pos] !== this.sequence[pos]) {
             this.highScores.push([this.state.name, this.score])
+            clearInterval(this.interval)
             this.setState({ gameOver: true })
         }
         if (pos === this.sequence.length - 1 && !this.state.gameOver) {

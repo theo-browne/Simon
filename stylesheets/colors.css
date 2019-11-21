@@ -17,8 +17,10 @@
     display: flex;
     width: 40%;
 }
-.game-grid button{
-    width: 50%;
+.game-grid > button{
+    padding: 20%;
+    padding-top: 10%;
+    padding-bottom: 10%;
     box-sizing: border-box;
 }
 
@@ -43,6 +45,9 @@
     z-index: 3;
 }
 
+button:focus{
+    outline: none
+}
 li{
     list-style: none;
 }
