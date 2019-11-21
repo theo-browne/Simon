@@ -239,21 +239,25 @@ function (_React$Component) {
     _this.playGame = _this.playGame.bind(_assertThisInitialized(_this));
     _this.handleInput = _this.handleInput.bind(_assertThisInitialized(_this));
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.startGame = _this.startGame.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Game, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this2 = this;
-
-      window.addEventListener('keypress', function () {
-        _this2.setState({
+      window.addEventListener('keypress', this.startGame);
+    }
+  }, {
+    key: "startGame",
+    value: function startGame(e) {
+      if (e.code === 'Space') {
+        this.setState({
           gameStarted: true
         });
-
-        _this2.playGame();
-      });
+        this.playGame();
+        window.removeEventListener('keypress', this.startGame);
+      }
     }
   }, {
     key: "playGame",
@@ -269,7 +273,7 @@ function (_React$Component) {
   }, {
     key: "selectColor",
     value: function selectColor() {
-      var _this3 = this;
+      var _this2 = this;
 
       this.setState({
         selected: ''
@@ -281,9 +285,9 @@ function (_React$Component) {
           selected: 'finished'
         });
         setTimeout(function () {
-          clearInterval(_this3.interval);
+          clearInterval(_this2.interval);
 
-          _this3.setState({
+          _this2.setState({
             selected: ''
           });
         }, 100);
@@ -349,7 +353,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this3 = this;
 
       var gameStarted = this.state.gameStarted ? null : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "start-game"
@@ -358,7 +362,7 @@ function (_React$Component) {
       }, "Click \xA0 ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "change-name",
         onClick: function onClick() {
-          return _this4.setState({
+          return _this3.setState({
             changeName: true
           });
         }
@@ -376,8 +380,8 @@ function (_React$Component) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_button__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: idx,
           color: color,
-          highlighted: color === _this4.state.selected,
-          disabled: _this4.state.selected
+          highlighted: color === _this3.state.selected,
+          disabled: _this3.state.selected
         });
       })), gameStarted);
     }

@@ -23,15 +23,20 @@ export default class Game extends React.Component{
         this.playGame = this.playGame.bind(this);
         this.handleInput = this.handleInput.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.startGame = this.startGame.bind(this)
     }
 
     componentDidMount(){
-        window.addEventListener('keypress', () => {
-           this.setState({gameStarted : true})
-           this.playGame();
-        })
+        window.addEventListener('keypress', this.startGame)
+        
     }
-
+    startGame(e){
+        if (e.code === 'Space'){
+            this.setState({ gameStarted: true })
+            this.playGame();
+            window.removeEventListener('keypress', this.startGame)
+        }
+    }
     playGame(){
         this.generateColor();
         this.playSequence();
