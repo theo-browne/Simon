@@ -1,15 +1,19 @@
 h1, li, h2, button{
     font-family: 'Russo One', sans-serif;
 }
+
 .red{
     background-color: red;
 }
+
 .green{
     background-color: green;
 }
+
 .blue{
     background-color: blue;
 }
+
 .yellow{
     background-color: yellow;
 }
@@ -27,16 +31,18 @@ h1, li, h2, button{
     box-sizing: border-box;
 }
 
-
 .nonhighlight{
     opacity: .5;
 }
+
 .highlight{
     opacity: 1;
 } 
+
 .game-grid > button:hover{
     cursor: pointer;
 }
+
 .game-grid > button:hover:disabled{
     cursor: auto;
 }
@@ -45,12 +51,11 @@ h1, li, h2, button{
     width: 100vw;
     height: 100vh;
     z-index: 2;
-  background-color: rgba(243, 242, 242, 0.9);
+    background-color: rgba(243, 242, 242, 0.9);
     position: fixed;
     top: 0;
     left: 0;
     text-align: center;
-
 }
 .game-over button, .game-over h1, .game-over li{
     z-index: 3;
@@ -62,9 +67,11 @@ h1, li, h2, button{
 button:focus{
     outline: none
 }
+
 li{
     list-style: none;
 }
+
 .score{
     display: flex;
     justify-content: space-between;
@@ -81,22 +88,19 @@ li{
     margin-top: 30px;
 }
 
-.change-link{
-    display: flex;
-    margin: auto;
-    justify-content: center;
-}
-
 .current-score{
     text-align: center;
 }
+
 .name-input{
     display: flex;
     justify-content: center;
 }
+
 .name-input input{
     margin-left: 10px;
 }
+
 .reset-button{
     cursor: pointer;
 }

@@ -25,13 +25,13 @@ export default class Game extends React.Component{
         this.inputName = this.inputName.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.startGame = this.startGame.bind(this);
-        
     }
 
     componentDidMount(){
         window.addEventListener('keypress', this.startGame)
         
     }
+
     startGame(e){
         if (e.code === 'Space'){
             this.setState({ gameStarted: true })
@@ -114,7 +114,7 @@ export default class Game extends React.Component{
 
         let modal = this.state.gameOver ? 
             <GameOver highScores={this.highScores.sort((a,b) => b[1] - a[1])} 
-            func={this.resetGame}
+            resetGame={this.resetGame}
             inputName={this.inputName}
             score={this.score}/> : 
             null

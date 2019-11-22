@@ -16,7 +16,7 @@ const GameOver = (props) => {
                
             </div>
             <h2 className='your-score'>Your Score: {props.score}</h2>
-            <button className='reset-button'onClick={props.func}>
+            <button className='reset-button' onClick={props.resetGame}>
                 CLICK TO PLAY AGAIN
             </button>
             

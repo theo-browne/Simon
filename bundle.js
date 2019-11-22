@@ -168,7 +168,6 @@ function (_React$Component) {
       var _this2 = this;
 
       var highlight = this.props.highlighted || !this.props.disabled && this.state.highlighted ? 'highlight' : 'nonhighlight';
-      var clickable = !this.props.disabled ? false : true;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         disabled: this.props.disabled,
         className: this.props.color + ' ' + highlight,
@@ -385,7 +384,7 @@ function (_React$Component) {
         highScores: this.highScores.sort(function (a, b) {
           return b[1] - a[1];
         }),
-        func: this.resetGame,
+        resetGame: this.resetGame,
         inputName: this.inputName,
         score: this.score
       }) : null;
@@ -445,7 +444,7 @@ var GameOver = function GameOver(props) {
     className: "your-score"
   }, "Your Score: ", props.score), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "reset-button",
-    onClick: props.func
+    onClick: props.resetGame
   }, "CLICK TO PLAY AGAIN"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Previous High Scores"), props.highScores.map(function (score, idx) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "score",
