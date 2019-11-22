@@ -138,6 +138,15 @@ function (_React$Component) {
   }
 
   _createClass(SimonButton, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps.disabled !== this.props.disabled) {
+        this.setState({
+          highlighted: false
+        });
+      }
+    }
+  }, {
     key: "highlightBox",
     value: function highlightBox() {
       if (!this.props.disabled) {
@@ -156,13 +165,17 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var highlight = this.props.highlighted || !this.props.disabled && this.state.highlighted ? 'highlight' : 'nonhighlight';
       var clickable = !this.props.disabled ? false : true;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        disabled: clickable,
+        disabled: this.props.disabled,
         className: this.props.color + ' ' + highlight,
-        onMouseOver: this.highlightBox,
-        onMouseOut: this.unhighlightBox
+        onMouseOver: function onMouseOver() {
+          return _this2.highlightBox();
+        },
+        onMouseLeave: this.unhighlightBox
       });
     }
   }]);

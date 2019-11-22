@@ -9,10 +9,15 @@ export default class SimonButton extends React.Component{
         this.highlightBox = this.highlightBox.bind(this)
         this.unhighlightBox = this.unhighlightBox.bind(this)
     }
+    componentDidUpdate(prevProps){
+        if (prevProps.disabled !== this.props.disabled){
+            this.setState({highlighted: false})
+        }
+    }
 
     highlightBox(){
         if (!this.props.disabled){
-            this.setState({highlighted: true})
+            this.setState({ highlighted: true })
         }
     }
 
@@ -24,7 +29,7 @@ export default class SimonButton extends React.Component{
         let highlight = (this.props.highlighted || (!this.props.disabled && this.state.highlighted))  ? 'highlight' : 'nonhighlight'
         let clickable = !this.props.disabled ? false : true;
         return(
-            <button disabled={clickable} className={this.props.color + ' ' + highlight } onMouseOver={this.highlightBox} onMouseOut={this.unhighlightBox} >
+            <button disabled={this.props.disabled} className={this.props.color + ' ' + highlight } onMouseOver={() => this.highlightBox()} onMouseLeave={this.unhighlightBox} >
                 
             </button>
         )
