@@ -156,9 +156,9 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var highlight = this.props.highlighted || this.state.highlighted && !this.props.disabled ? 'highlight' : 'nonhighlight';
+      var highlight = this.props.highlighted || !this.props.disabled && this.state.highlighted ? 'highlight' : 'nonhighlight';
       var clickable = !this.props.disabled ? false : true;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         disabled: clickable,
         className: this.props.color + ' ' + highlight,
         onMouseOver: this.highlightBox,
@@ -226,9 +226,8 @@ function (_React$Component) {
       gameStarted: false,
       selected: '',
       pos: -1,
-      name: 'Local Player',
       inputSequence: [],
-      nameChange: false
+      disabled: true
     };
     _this.colors = ["red", "blue", "green", "yellow"];
     _this.sequence = [];
@@ -269,6 +268,9 @@ function (_React$Component) {
   }, {
     key: "playSequence",
     value: function playSequence() {
+      this.setState({
+        disabled: true
+      });
       this.interval = setInterval(this.selectColor, 500);
     }
   }, {
@@ -282,21 +284,21 @@ function (_React$Component) {
       var newPos = this.state.pos + 1;
 
       if (!this.sequence[newPos]) {
-        this.setState({
-          selected: 'finished'
-        });
         setTimeout(function () {
           clearInterval(_this2.interval);
 
           _this2.setState({
-            selected: ''
+            selected: '',
+            disabled: false
+          });
+        }, 200);
+      } else {
+        setTimeout(function () {
+          return _this2.setState({
+            pos: newPos,
+            selected: _this2.sequence[newPos]
           });
         }, 100);
-      } else {
-        setTimeout(this.setState({
-          pos: newPos,
-          selected: this.sequence[newPos]
-        }), 100);
       }
     }
   }, {
@@ -322,7 +324,7 @@ function (_React$Component) {
   }, {
     key: "handleClick",
     value: function handleClick(e) {
-      if (!this.state.gameStarted) return;
+      if (this.state.disabled) return;
       this.inputSequence.push(e.target.classList[0]);
       var pos = this.inputSequence.length - 1;
 
@@ -356,7 +358,9 @@ function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      var gameStarted = this.state.gameStarted ? null : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      var gameStarted = this.state.gameStarted ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "current-score"
+      }, "Score: ", this.score) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "start-game"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Press SPACE to start game"));
       var modal = this.state.gameOver ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_gameOver__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -364,8 +368,8 @@ function (_React$Component) {
           return b[1] - a[1];
         }),
         func: this.resetGame
-      }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Play Simon"));
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, modal, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }) : null;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Play Simon")), modal, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "game-grid",
         onClick: this.handleClick
       }, this.colors.map(function (color, idx) {
@@ -373,7 +377,7 @@ function (_React$Component) {
           key: idx,
           color: color,
           highlighted: color === _this3.state.selected,
-          disabled: _this3.state.selected
+          disabled: _this3.state.disabled
         });
       })), gameStarted);
     }
@@ -402,7 +406,7 @@ __webpack_require__.r(__webpack_exports__);
 var GameOver = function GameOver(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "game-over"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "GAME OVER"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "HighScores"), props.highScores.map(function (score, idx) {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "GAME OVER"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "High Scores"), props.highScores.map(function (score, idx) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "score",
       key: idx

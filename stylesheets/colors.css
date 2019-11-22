@@ -16,10 +16,9 @@
     width:400px;
     flex-wrap: wrap;
     margin: auto;
-    
 }
 
-.game-grid > div{
+.game-grid > button{
     width: 200px;
     height: 200px;
     box-sizing: border-box;
@@ -31,6 +30,12 @@
 }
 .highlight{
     opacity: 1;
+} 
+.game-grid > button:hover{
+    cursor: pointer;
+}
+.game-grid > button:hover:disabled{
+    cursor: auto;
 }
 
 .game-over{
@@ -41,9 +46,13 @@
     position: fixed;
     top: 0;
     left: 0;
+    text-align: center;
 }
 .game-over button, .game-over h1, .game-over li{
     z-index: 3;
+}
+.game-over button{
+    margin-top: 30px;
 }
 
 button:focus{
@@ -59,7 +68,7 @@ li{
     margin-left: 10px
 }
 
-.start-game, .change-link{
+.start-game, .change-link, .current-score{
     text-align: center;
     margin-top: 30px;
 }
@@ -68,4 +77,10 @@ li{
     display: flex;
     margin: auto;
     justify-content: center;
+}
+.score li{
+    margin: auto;
+}
+.current-score{
+    text-align: center;
 }
