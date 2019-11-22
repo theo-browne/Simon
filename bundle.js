@@ -421,8 +421,7 @@ var GameOver = function GameOver(props) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Enter Your Name: "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     action: "",
     onSubmit: function onSubmit(e) {
-      e.preventDefault(); // e.target.children[0].value = ''
-
+      e.preventDefault();
       e.target.children[0].disabled = true;
     }
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {

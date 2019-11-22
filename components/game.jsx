@@ -58,11 +58,11 @@ export default class Game extends React.Component{
         this.setState({selected: ''})
         let newPos = this.state.pos + 1;
         if (!this.sequence[newPos]) {
-                setTimeout(() => {
-                    clearInterval(this.interval)
-                    this.setState({ selected: '', disabled: false })
-                }
-                    , 200)
+             setTimeout(() => {
+                 clearInterval(this.interval)
+                 this.setState({ selected: '', disabled: false })
+             }
+                 , 200)
          } else {
              setTimeout(() => this.setState({ pos: newPos, selected: this.sequence[newPos] }), 100)
         }
@@ -107,8 +107,6 @@ export default class Game extends React.Component{
     }
 
     render(){
-      
-
     let gameStarted = this.state.gameStarted ? <li className='current-score'>Score: {this.score}</li> : 
             <div className='start-game'>
                 <li>Press SPACE to start game</li>
