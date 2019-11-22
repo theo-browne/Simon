@@ -11,7 +11,8 @@ export default class Game extends React.Component{
             selected: '',
             pos: -1,
             inputSequence: [],
-            disabled: true
+            disabled: true,
+            name: 'Local Player'
         };
         this.colors = ["red", "blue", "green", "yellow"];
         this.sequence = [];
@@ -21,9 +22,10 @@ export default class Game extends React.Component{
         this.selectColor = this.selectColor.bind(this);
         this.resetGame = this.resetGame.bind(this);
         this.playGame = this.playGame.bind(this);
-        this.handleInput = this.handleInput.bind(this);
+        this.inputName = this.inputName.bind(this);
         this.handleClick = this.handleClick.bind(this);
-        this.startGame = this.startGame.bind(this)
+        this.startGame = this.startGame.bind(this);
+        
     }
 
     componentDidMount(){
@@ -47,6 +49,10 @@ export default class Game extends React.Component{
         this.setState({disabled: true})
          this.interval = setInterval(this.selectColor, 500);
     } 
+
+    inputName(e){
+        this.setState({name: e.target.value})
+    }
     
     selectColor(){
         this.setState({selected: ''})
@@ -68,6 +74,7 @@ export default class Game extends React.Component{
     }
 
     resetGame(){
+        this.addScore()
         this.inputSequence = [];
         this.sequence = [];
         this.score = 0;
@@ -75,8 +82,13 @@ export default class Game extends React.Component{
             gameOver: false,
             gameStarted: true,
             selected: '',
-            pos: -1})
+            pos: -1,
+            name: 'Local Player'})
         setTimeout(this.playGame, 500)
+    }
+
+    addScore() {
+        this.highScores.push([this.state.name, this.score ])
     }
 
     handleClick(e){
@@ -84,11 +96,9 @@ export default class Game extends React.Component{
         this.inputSequence.push(e.target.classList[0]);
         let pos = this.inputSequence.length - 1;
         if (this.inputSequence[pos] !== this.sequence[pos]) {
-            this.highScores.push([this.state.name, this.score])
             clearInterval(this.interval)
             this.setState({ gameOver: true })
-        }
-        if (pos === this.sequence.length - 1 && !this.state.gameOver) {
+        } else if (pos === this.sequence.length - 1 && !this.state.gameOver) {
             this.inputSequence = [];
             this.score ++;
             this.setState({pos: -1, selected: ''});
@@ -96,9 +106,6 @@ export default class Game extends React.Component{
         }
     }
 
-    handleInput(e){
-        this.setState({ name: e.target.value }) 
-    }
     render(){
       
 
@@ -109,13 +116,15 @@ export default class Game extends React.Component{
 
         let modal = this.state.gameOver ? 
             <GameOver highScores={this.highScores.sort((a,b) => b[1] - a[1])} 
-            func={this.resetGame}/> : 
+            func={this.resetGame}
+            inputName={this.inputName}
+            score={this.score}/> : 
             null
             
         return(
             <div>
                 <div>
-                    <h1>Play Simon</h1>
+                    <h1 className='play'>Play Simon</h1>
                 </div>
                 {modal}
             <div className='game-grid' onClick={this.handleClick}>

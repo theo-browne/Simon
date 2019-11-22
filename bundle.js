@@ -130,7 +130,7 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(SimonButton).call(this, props));
     _this.state = {
-      highlighted: _this.props.highlighted
+      highlighted: false
     };
     _this.highlightBox = _this.highlightBox.bind(_assertThisInitialized(_this));
     _this.unhighlightBox = _this.unhighlightBox.bind(_assertThisInitialized(_this));
@@ -162,7 +162,7 @@ function (_React$Component) {
         disabled: clickable,
         className: this.props.color + ' ' + highlight,
         onMouseOver: this.highlightBox,
-        onMouseLeave: this.unhighlightBox
+        onMouseOut: this.unhighlightBox
       });
     }
   }]);
@@ -227,7 +227,8 @@ function (_React$Component) {
       selected: '',
       pos: -1,
       inputSequence: [],
-      disabled: true
+      disabled: true,
+      name: 'Local Player'
     };
     _this.colors = ["red", "blue", "green", "yellow"];
     _this.sequence = [];
@@ -237,7 +238,7 @@ function (_React$Component) {
     _this.selectColor = _this.selectColor.bind(_assertThisInitialized(_this));
     _this.resetGame = _this.resetGame.bind(_assertThisInitialized(_this));
     _this.playGame = _this.playGame.bind(_assertThisInitialized(_this));
-    _this.handleInput = _this.handleInput.bind(_assertThisInitialized(_this));
+    _this.inputName = _this.inputName.bind(_assertThisInitialized(_this));
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     _this.startGame = _this.startGame.bind(_assertThisInitialized(_this));
     return _this;
@@ -272,6 +273,13 @@ function (_React$Component) {
         disabled: true
       });
       this.interval = setInterval(this.selectColor, 500);
+    }
+  }, {
+    key: "inputName",
+    value: function inputName(e) {
+      this.setState({
+        name: e.target.value
+      });
     }
   }, {
     key: "selectColor",
@@ -310,6 +318,7 @@ function (_React$Component) {
   }, {
     key: "resetGame",
     value: function resetGame() {
+      this.addScore();
       this.inputSequence = [];
       this.sequence = [];
       this.score = 0;
@@ -317,9 +326,15 @@ function (_React$Component) {
         gameOver: false,
         gameStarted: true,
         selected: '',
-        pos: -1
+        pos: -1,
+        name: 'Local Player'
       });
       setTimeout(this.playGame, 500);
+    }
+  }, {
+    key: "addScore",
+    value: function addScore() {
+      this.highScores.push([this.state.name, this.score]);
     }
   }, {
     key: "handleClick",
@@ -329,14 +344,11 @@ function (_React$Component) {
       var pos = this.inputSequence.length - 1;
 
       if (this.inputSequence[pos] !== this.sequence[pos]) {
-        this.highScores.push([this.state.name, this.score]);
         clearInterval(this.interval);
         this.setState({
           gameOver: true
         });
-      }
-
-      if (pos === this.sequence.length - 1 && !this.state.gameOver) {
+      } else if (pos === this.sequence.length - 1 && !this.state.gameOver) {
         this.inputSequence = [];
         this.score++;
         this.setState({
@@ -345,13 +357,6 @@ function (_React$Component) {
         });
         setTimeout(this.playGame, 500);
       }
-    }
-  }, {
-    key: "handleInput",
-    value: function handleInput(e) {
-      this.setState({
-        name: e.target.value
-      });
     }
   }, {
     key: "render",
@@ -367,9 +372,13 @@ function (_React$Component) {
         highScores: this.highScores.sort(function (a, b) {
           return b[1] - a[1];
         }),
-        func: this.resetGame
+        func: this.resetGame,
+        inputName: this.inputName,
+        score: this.score
       }) : null;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Play Simon")), modal, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "play"
+      }, "Play Simon")), modal, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "game-grid",
         onClick: this.handleClick
       }, this.colors.map(function (color, idx) {
@@ -404,16 +413,33 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var GameOver = function GameOver(props) {
+  var name = 'Local Player';
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "game-over"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "GAME OVER"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "High Scores"), props.highScores.map(function (score, idx) {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "GAME OVER"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "name-input"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Enter Your Name: "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    action: "",
+    onSubmit: function onSubmit(e) {
+      e.preventDefault(); // e.target.children[0].value = ''
+
+      e.target.children[0].disabled = true;
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    placeholder: name,
+    onChange: props.inputName
+  }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+    className: "your-score"
+  }, "Your Score: ", props.score), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "reset-button",
+    onClick: props.func
+  }, "CLICK TO PLAY AGAIN"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Previous High Scores"), props.highScores.map(function (score, idx) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "score",
       key: idx
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Score: ", score[1]));
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    onClick: props.func
-  }, "CLICK TO PLAY AGAIN"));
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Name: ", score[0]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Score: ", score[1]));
+  }));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (GameOver);

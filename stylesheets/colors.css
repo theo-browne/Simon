@@ -47,6 +47,7 @@
     top: 0;
     left: 0;
     text-align: center;
+
 }
 .game-over button, .game-over h1, .game-over li{
     z-index: 3;
@@ -63,6 +64,10 @@ li{
 }
 .score{
     display: flex;
+    justify-content: space-between;
+    position: relative;
+    width: 400px;
+    margin: auto;
 }
 .score li{
     margin-left: 10px
@@ -79,8 +84,18 @@ li{
     justify-content: center;
 }
 .score li{
-    margin: auto;
+    /* margin: auto; */
 }
 .current-score{
     text-align: center;
+}
+.name-input{
+    display: flex;
+    justify-content: center;
+}
+.name-input input{
+    margin-left: 10px;
+}
+.reset-button{
+    cursor: pointer;
 }
